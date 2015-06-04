@@ -8,6 +8,8 @@ using log4net.Config;
 
 namespace IISLogTrafficGenerator.Logic
 {
+	using IISLogTrafficGenerator.Logic.Convert;
+
 	public class Downloader
 	{
 		private static log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

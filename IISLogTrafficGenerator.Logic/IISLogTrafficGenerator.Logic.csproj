@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Convert\Converter.cs" />
-    <Compile Include="Convert\IISLogReader.cs" />
+    <Compile Include="Convert\LogReader.cs" />
     <Compile Include="Convert\LogRow.cs" />
     <Compile Include="Downloader.cs" />
     <Compile Include="Events\ClientErrorResponseEventArgs.cs" />

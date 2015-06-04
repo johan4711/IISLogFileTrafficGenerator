@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace IISLogTrafficGenerator.Convert
+﻿namespace IISLogTrafficGenerator.Logic.Convert
 {
-	using IISLogTrafficGenerator.Logic.Convert;
+	using System;
+	using System.Collections.Generic;
+
+	using IISLogTrafficGenerator.Convert;
 
 	public class Converter
     {
@@ -13,7 +11,7 @@ namespace IISLogTrafficGenerator.Convert
         {
             if (pathToLogFile == null) throw new ArgumentNullException("pathToLogFile");
 
-            var reader = new IISLogReader(pathToLogFile);
+            var reader = new LogReader(pathToLogFile);
 
             return reader.GetRequests();
           
