@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86C9EAA9-68B9-44F0-A5C5-1798C95DAD47}"
+	ProjectSection(SolutionItems) = preProject
+		Libraries\logparser\LogParser.dll = Libraries\logparser\LogParser.dll
+		readme.txt = readme.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IISLogTrafficGenerator.Console", "IISLogTrafficGenerator\IISLogTrafficGenerator.Console.csproj", "{05DF31CF-9941-47C2-A13C-70B50E457C46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IISLogTrafficGenerator.Logic", "IISLogTrafficGenerator.Logic\IISLogTrafficGenerator.Logic.csproj", "{B290D08F-AD5B-4EC2-9201-166D1888F912}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05DF31CF-9941-47C2-A13C-70B50E457C46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05DF31CF-9941-47C2-A13C-70B50E457C46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05DF31CF-9941-47C2-A13C-70B50E457C46}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{05DF31CF-9941-47C2-A13C-70B50E457C46}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{05DF31CF-9941-47C2-A13C-70B50E457C46}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{05DF31CF-9941-47C2-A13C-70B50E457C46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05DF31CF-9941-47C2-A13C-70B50E457C46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05DF31CF-9941-47C2-A13C-70B50E457C46}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{05DF31CF-9941-47C2-A13C-70B50E457C46}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{05DF31CF-9941-47C2-A13C-70B50E457C46}.Release|x86.ActiveCfg = Release|Any CPU
+		{B290D08F-AD5B-4EC2-9201-166D1888F912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B290D08F-AD5B-4EC2-9201-166D1888F912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B290D08F-AD5B-4EC2-9201-166D1888F912}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B290D08F-AD5B-4EC2-9201-166D1888F912}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B290D08F-AD5B-4EC2-9201-166D1888F912}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B290D08F-AD5B-4EC2-9201-166D1888F912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B290D08F-AD5B-4EC2-9201-166D1888F912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B290D08F-AD5B-4EC2-9201-166D1888F912}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B290D08F-AD5B-4EC2-9201-166D1888F912}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B290D08F-AD5B-4EC2-9201-166D1888F912}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
