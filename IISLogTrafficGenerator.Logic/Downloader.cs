@@ -2,14 +2,12 @@
 using System.IO;
 using System.Net;
 using System.Threading;
-using IISLogTrafficGenerator.Convert;
+
 using IISLogTrafficGenerator.Logic.Events;
 using log4net.Config;
 
 namespace IISLogTrafficGenerator.Logic
 {
-	using IISLogTrafficGenerator.Logic.Convert;
-
 	public class Downloader
 	{
 		private static log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -120,10 +118,16 @@ namespace IISLogTrafficGenerator.Logic
 				targetServerUrl = "http://" + targetServerUrl;
 			}
 
+			if (targetServerUrl.EndsWith("/"))
+			{
+				targetServerUrl = targetServerUrl.Substring(0, targetServerUrl.Length - 1);
+			}
+
 			XmlConfigurator.Configure(new FileInfo("log.config"));
 
-			var converter = new Converter();
-			var requests = converter.GetRequestEnumerator(logFile);
+			var reader = new LogReader(logFile);
+
+			var requests = reader.ParseLogFile();
 			var lastTimespan = new TimeSpan(0, 0, 0);
 			WebClientThreadStatus client = null;
 
@@ -131,7 +135,9 @@ namespace IISLogTrafficGenerator.Logic
 			{
 				foreach (var request in requests)
 				{
-					string url = string.Format("{0}{1}", targetServerUrl, request.Url);
+					if (request.Port != "80") request.Port = ":" + request.Port;
+					else request.Port = "";
+					string url = string.Format("{0}{1}{2}", targetServerUrl, request.Port, request.Url);
 
 					if (dowaiting == WaitMode.LogInterval)
 					{
@@ -161,12 +167,6 @@ namespace IISLogTrafficGenerator.Logic
 		private void WaitTimespanDifference(TimeSpan lastTimespan, DateTime time)
 		{
 			var newTs = time.TimeOfDay.Subtract(lastTimespan);
-			//if (newTs > new TimeSpan(0, 0, 0))
-			//{
-
-			//    Console.WriteLine(String.Format("{0}, urls: {1} ({2}), fail: {3}, 404: {4}, 500: {5}, others: {6}, clients: {7}", lastTimespan, newurls, urlcount, failedurls, errors404, errors500, errorsother, activeclients));
-			//    newurls = 0;
-			//}
 			Thread.Sleep(newTs);
 		}
 
