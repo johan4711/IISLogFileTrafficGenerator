@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
-using IISLogTrafficGenerator.Convert;
+
 using IISLogTrafficGenerator.Logic;
 using IISLogTrafficGenerator.Logic.Events;
 using log4net.Config;
@@ -43,6 +43,12 @@ namespace IISLogTrafficGenerator
         	{
         		DisplayHelp();
         	}
+
+    		if (string.IsNullOrWhiteSpace(pathToLog))
+    		{
+    			ThrowLogfileOptionMissingError();
+    		}
+
             new Program().StartProgram(pathToLog, serverUrl, dowaiting, restart);
         }
 
@@ -68,7 +74,7 @@ namespace IISLogTrafficGenerator
 			int waitinterval = 1;
 			do
 			{
-				Console.WriteLine(String.Format("{0}, urls: {1} ({2}) fail: {3} 404: {4} 500: {5}, o: {6}, nr: {7}, t: {8}", lastTimespan, newurls, urlcount, failedurls, errors404, errors500, errorsother, noresponse, threadcount));
+				Console.WriteLine("{0}, urls: {1} ({2}) fail: {3} 404: {4} 500: {5}, o: {6}, nr: {7}, t: {8}", lastTimespan, newurls, urlcount, failedurls, errors404, errors500, errorsother, noresponse, threadcount);
 				if (count == 10)
 				{
 					DumpErrorCodeCount();
@@ -94,7 +100,7 @@ namespace IISLogTrafficGenerator
 			{
 				result.AppendFormat(" {0}:{1} ", kvp.Key, kvp.Value);
 			}
-			Console.WriteLine(result.ToString());
+			if (result.Length> 0) Console.WriteLine(result.ToString());
 	    }
 
 		private void OnClientDoneEvent(object sender)
@@ -149,28 +155,15 @@ namespace IISLogTrafficGenerator
 			DisplayNowaitOptionHelp();
 			DisplayRestartFromTopOptionHelp();
     		DisplayStaticWaitOptionHelp();
+    		DisplayLegend();
 			Environment.Exit(1);
     	}
 
-	    private static void DisplayStaticWaitOptionHelp()
-	    {
-			Console.WriteLine("/ws <milliseconds> waits a specified amount of milliseconds between each request. Default is 100");
-	    }
-
-	    private static void DisplayHeader()
-    	{
-			Console.WriteLine("IISLogTrafficGenerator 0.1\r\n==========================\r\n\r\nParses n IIS log file and generates http traffic from this\r\n");
-    	}
-
-    	private static void DisplayNowaitOptionHelp()
-    	{
-			Console.WriteLine("/w disables the waiting between requests. Normally the parser checks the timestamp of the log message and tries to mimic the request flow by waiting the difference in second but by specifying this option, it wil run everything as it reads it. Beware, this might build up a large swarm of traffic");
-    	}
-
-    	private void ThrowLogfileOptionMissingError()
+		private static void DisplayHeader()
 		{
-			DisplayLogfileOptionHelp();
-			throw new ApplicationException("You need to specify logfile name");
+			var v = typeof(Program).Assembly.GetName().Version;
+			var version = string.Format("{0}.{1}", v.Major, v.Minor);
+			Console.WriteLine("\r\nIISLogTrafficGenerator {0}\r\n==========================\r\n\r\nParses n IIS log file and generates http traffic from this\r\n", version);
 		}
 
 		private static void DisplayLogfileOptionHelp()
@@ -183,10 +176,39 @@ namespace IISLogTrafficGenerator
 			Console.WriteLine(@"/s <server base url>, eg, /s ""http://mysite.com"". If omitted, http://localhost will be used");
 		}
 
-	    private static void DisplayRestartFromTopOptionHelp()
+    	private static void DisplayNowaitOptionHelp()
+    	{
+			Console.WriteLine("/w disables the waiting between requests. Normally the parser checks the timestamp of the log message and tries to mimic the request flow by waiting the difference in second but by specifying this option, it wil run everything as it reads it. Beware, this might build up a large swarm of traffic");
+    	}
+
+		private static void DisplayRestartFromTopOptionHelp()
+		{
+			Console.WriteLine(@"/r restart from top of log file when run is complete, ie, will run continously until interrupted");
+		}
+
+		private static void DisplayStaticWaitOptionHelp()
+		{
+			Console.WriteLine("/ws <milliseconds> waits a specified amount of milliseconds between each request. Default is 100");
+		}
+
+	    private static void DisplayLegend()
 	    {
-			Console.WriteLine(@"/r restart from top of log file when run is complete, ie, will run contínously until interrupted");
+		    Console.WriteLine("\r\nWhen running the program will display the following in 1 second intervals:");
+			Console.WriteLine("urls: number of urls tested this iteration plus total urls in parentheses");
+			Console.WriteLine("fail: failed urls (any and all sorts of error) summed");
+			Console.WriteLine("404: number of urls return http status 404");
+			Console.WriteLine("500: number of urls return http status 500");
+			Console.WriteLine("o: total number of other errors");
+			Console.WriteLine("nr: total number of urls that  we didn't get a response from");
+			Console.WriteLine("t: current thread count");
 	    }
+
+    	private static void ThrowLogfileOptionMissingError()
+		{
+			DisplayLogfileOptionHelp();
+			throw new ApplicationException("You need to specify logfile name");
+		}
+
 		private static void DisplayUnableToParseTimespanMessage(string startTime)
 		{
 			Console.WriteLine("Unable to parse timespan " + startTime);
@@ -216,7 +238,7 @@ namespace IISLogTrafficGenerator
 			{
 				fileName = args[index + 1];
 			}
-
+			
 			return fileName;
 		}
 
