@@ -24,9 +24,9 @@ namespace IISLogTrafficGenerator
     	private int errorsother = 0;
 		private int newurls = 0;
 		private bool dowaiting = true;
-		private int threadcount = 0;
+		//private int threadcount = 0;
 	    private int noresponse = 0;
-
+		ConcurrentBag<int> threadIds = new ConcurrentBag<int>(); 
 		private bool progressing = false;
 		private ConcurrentDictionary<int, int> ErrorCodeCount = new ConcurrentDictionary<int, int>();
 
@@ -74,7 +74,7 @@ namespace IISLogTrafficGenerator
 			int waitinterval = 1;
 			do
 			{
-				Console.WriteLine("{0}, urls: {1} ({2}) fail: {3} 404: {4} 500: {5}, o: {6}, nr: {7}, t: {8}", lastTimespan, newurls, urlcount, failedurls, errors404, errors500, errorsother, noresponse, threadcount);
+				Console.WriteLine("{0}, urls: {1} ({2}) fail: {3} 404: {4} 500: {5}, o: {6}, nr: {7}, t: {8}", lastTimespan, newurls, urlcount, failedurls, errors404, errors500, errorsother, noresponse, threadIds.Count);
 				if (count == 10)
 				{
 					DumpErrorCodeCount();
@@ -130,20 +130,21 @@ namespace IISLogTrafficGenerator
 
     	private void OnClientErrorOtherEvent(object sender, Exception innerException)
     	{
-			threadcount--;
 			errorsother++;
     	}
 
-    	private void OnClientStoppedEvent(object sender)
+    	private void OnClientStoppedEvent(object sender, int threadId)
     	{
-			threadcount--;
+			int idontcare = threadId;
+    		threadIds.TryTake(out idontcare);
 			urlcount++;
 			newurls++;
+			Thread.CurrentThread.Abort();
     	}
 
-    	private void OnClientStartedEvent(object sender)
+    	private void OnClientStartedEvent(object sender, int threadId)
     	{
-			threadcount++;
+			threadIds.Add(threadId);
     	}
 
 
