@@ -23,10 +23,10 @@ namespace IISLogTrafficGenerator.Logic
 		public delegate void ConfigurationErrorEventHandler(object sender, ConfigurationErrorEventArgs e);
 		public event ConfigurationErrorEventHandler LogFileOptionMissingEvent;
 
-		public delegate void ClientStartedEventHandler(object sender);
+		public delegate void ClientStartedEventHandler(object sender, int threadId);
 		public event ClientStartedEventHandler ClientStartedEvent;
 
-		public delegate void ClientStoppedEventHandler(object sender);
+		public delegate void ClientStoppedEventHandler(object sender, int threadId);
 		public event ClientStoppedEventHandler ClientStoppedEvent;
 
 		public delegate void ClientErrorResponseEventHandler(object sender, ClientErrorResponseEventArgs e);
@@ -76,13 +76,13 @@ namespace IISLogTrafficGenerator.Logic
 		protected void OnClientStartedEvent()
 		{
 			ClientStartedEventHandler handler = ClientStartedEvent;
-			if (handler != null) handler(this);
+			if (handler != null) handler(this, Thread.CurrentThread.ManagedThreadId);
 		}
 
 		protected void OnClientStoppedEvent()
 		{
 			ClientStoppedEventHandler handler = ClientStoppedEvent;
-			if (handler != null) handler(this);
+			if (handler != null) handler(this, Thread.CurrentThread.ManagedThreadId);
 		}
 
 		protected void OnNoLogfileToProcess(string message)
@@ -198,8 +198,6 @@ namespace IISLogTrafficGenerator.Logic
 				dataStream = IO.Streams.CopyStream(response.GetResponseStream());
 				reader = new StreamReader(dataStream);
 				string responseFromServer = reader.ReadToEnd();
-
-				OnClientStoppedEvent();
 			}
 			catch (WebException ex)
 			{
@@ -226,6 +224,7 @@ namespace IISLogTrafficGenerator.Logic
 				if (dataStream != null) dataStream.Close();
 				if (response != null) response.Close();
 				parameters.DownloadFinished();
+				OnClientStoppedEvent();
 			}
 
 		}
