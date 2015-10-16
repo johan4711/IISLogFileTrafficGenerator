@@ -89,7 +89,6 @@
 						stringBuilder.AppendFormat("?{0}", querystring);
 					}
 					var logrow = new LogRow(stringBuilder.ToString(), port, time);
-					//list.Add(logrow);
 					yield return logrow;
 				}
 			}

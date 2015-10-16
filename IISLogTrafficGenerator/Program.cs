@@ -34,8 +34,8 @@ namespace IISLogTrafficGenerator
         {
 
             //args
-			string pathToLog = ParseFileName(args); // @"C:\tmp\vikingline\loggar\logs\u_ex130106.log");
-			string serverUrl = ParseServerUrl(args); //"http://vikingline.market.se.local{0}");	
+			string pathToLog = ParseFileName(args); 
+			string serverUrl = ParseServerUrl(args); 
 			var dowaiting = ParseDoWait(args);
     		var restart = ParseRestartWhenFinished(args);
 

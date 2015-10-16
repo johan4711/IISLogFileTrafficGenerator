@@ -8,6 +8,6 @@ namespace IISLogTrafficGenerator.Logic.Events
 	public class ClientErrorResponseEventArgs
 	{
 		public ClientErrorResponseEventArgs(int code) { Code = code; }
-        public int Code {get; private set;} // readonly
+        public int Code {get; private set;} 
 	}
 }
