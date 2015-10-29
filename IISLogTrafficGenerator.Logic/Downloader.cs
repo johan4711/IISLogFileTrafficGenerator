@@ -179,7 +179,7 @@ namespace IISLogTrafficGenerator.Logic
 
 			var request = parameters.Client;
 			request.Credentials = CredentialCache.DefaultCredentials;
-
+			
 			StreamReader reader = null;
 			Stream dataStream = null;
 			HttpWebResponse response = null;
@@ -220,9 +220,9 @@ namespace IISLogTrafficGenerator.Logic
 			}
 			finally
 			{
-				if (reader != null) reader.Close();
-				if (dataStream != null) dataStream.Close();
-				if (response != null) response.Close();
+				reader?.Close();
+				dataStream?.Close();
+				response?.Close();
 				parameters.DownloadFinished();
 				OnClientStoppedEvent();
 			}

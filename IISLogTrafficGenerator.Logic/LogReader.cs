@@ -56,7 +56,7 @@
 				{
 					if (row.StartsWith(FIELDSSTRING))
 					{
-						var fields = row.Substring(FIELDSSTRING.Length+1).Split(' ');
+						var fields = row.Substring(FIELDSSTRING.Length+1).Split(new [] {' '}, StringSplitOptions.RemoveEmptyEntries);
 
 						dateidx = Array.FindIndex(fields, p => p.ToLower().Equals("date"));
 						timeIdx = Array.FindIndex(fields, p => p.ToLower().Equals("time"));
