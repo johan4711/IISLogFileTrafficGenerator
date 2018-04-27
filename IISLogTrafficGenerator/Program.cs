@@ -9,6 +9,8 @@ using System.Threading;
 
 using IISLogTrafficGenerator.Logic;
 using IISLogTrafficGenerator.Logic.Events;
+using IISLogTrafficGenerator.Logic.Logging;
+using IISLogTrafficGenerator.Logic.Runners;
 using log4net.Config;
 
 namespace IISLogTrafficGenerator
@@ -54,38 +56,41 @@ namespace IISLogTrafficGenerator
 
 		private void StartProgram(string pathToLog, string serverUrl, WaitMode b, bool restart)
 		{
-			ThreadPool.SetMinThreads(10, 4);
-			System.Net.ServicePointManager.DefaultConnectionLimit = 100;
+			//ThreadPool.SetMinThreads(10, 4);
+			//System.Net.ServicePointManager.DefaultConnectionLimit = 100;
 
-			int count = 0;
-			progressing = true;
-			var d = new Logic.Downloader(pathToLog, serverUrl, b, restart);
+			//int count = 0;
+			//Progressing = true;
+			//var d = new Logic.Downloader(pathToLog, serverUrl, b, restart);
 			
-			d.ClientStartedEvent += OnClientStartedEvent;
-			d.ClientStoppedEvent += OnClientStoppedEvent;
-			d.ClientErrorOtherEvent += OnClientErrorOtherEvent;
-			d.ClientErrorResponseEvent += OnClientErrorResponseEvent;
-			d.ClientErrorNoResponseEvent += OnClientErrorNoResponseEvent;
-			d.ClientDoneEvent += OnClientDoneEvent;
-			Thread threadStart = new Thread(d.CreateRequests);
-			threadStart.Start();
+			//d.ClientStartedEvent += OnClientStartedEvent;
+			//d.ClientStoppedEvent += OnClientStoppedEvent;
+			//d.ClientErrorOtherEvent += OnClientErrorOtherEvent;
+			//d.ClientErrorResponseEvent += OnClientErrorResponseEvent;
+			//d.ClientErrorNoResponseEvent += OnClientErrorNoResponseEvent;
+			//d.ClientDoneEvent += OnClientDoneEvent;
+			//Thread threadStart = new Thread(d.CreateRequests);
+			//threadStart.Start();
 			
-			TimeSpan lastTimespan = new TimeSpan(0, 0, 0, 0);
-			int waitinterval = 1;
-			do
-			{
-				Console.WriteLine("{0}, urls: {1} ({2}) fail: {3} 404: {4} 500: {5}, o: {6}, nr: {7}, t: {8}", lastTimespan, newurls, urlcount, failedurls, errors404, errors500, errorsother, noresponse, threadIds.Count);
-				if (count == 10)
-				{
-					DumpErrorCodeCount();
-					count = 0;
-				}
-				count++;
-				newurls = 0;
-				lastTimespan = lastTimespan.Add(new TimeSpan(0, 0, waitinterval));
-				Thread.Sleep(waitinterval * 1000);
-			} while (progressing);
-    	}
+			//TimeSpan lastTimespan = new TimeSpan(0, 0, 0, 0);
+			//int waitinterval = 1;
+			//do
+			//{
+			//	Console.WriteLine("{0}, urls: {1} ({2}) fail: {3} 404: {4} 500: {5}, o: {6}, nr: {7}, t: {8}", lastTimespan, newurls, urlcount, failedurls, errors404, errors500, errorsother, NoResponse, threadIds.Count);
+			//	if (count == 10)
+			//	{
+			//		DumpErrorCodeCount();
+			//		count = 0;
+			//	}
+			//	count++;
+			//	newurls = 0;
+			//	lastTimespan = lastTimespan.Add(new TimeSpan(0, 0, waitinterval));
+			//	Thread.Sleep(waitinterval * 1000);
+			//} while (Progressing);
+
+		    var runner = new InProcRunner();
+            runner.StartProgram(pathToLog, serverUrl, b, restart, new ConsoleLogger());
+		}
 
 	    private void OnClientErrorNoResponseEvent(object sender, ClientErrorNoResponseEventArgs clientErrorNoResponseEventArgs)
 	    {

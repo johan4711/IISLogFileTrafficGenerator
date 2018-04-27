@@ -9,6 +9,7 @@ namespace IISLogTrafficGenerator.Logic
 	{
 		LogInterval,
 		Static,
-		None
+		None,
+        LogIntervalButStartNow
 	}
 }

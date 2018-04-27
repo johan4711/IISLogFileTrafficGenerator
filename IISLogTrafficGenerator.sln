@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86C9EAA9-68B9-44F0-A5C5-1798C95DAD47}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IISLogTrafficGenerator.Logic", "IISLogTrafficGenerator.Logic\IISLogTrafficGenerator.Logic.csproj", "{B290D08F-AD5B-4EC2-9201-166D1888F912}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IISLogTrafficGenerator.Tests", "IISLogTrafficGenerator.Tests\IISLogTrafficGenerator.Tests.csproj", "{F5D0E722-8CA9-440B-BD93-63B52C522A52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IISLogTrafficGenerator.Web", "IISLogTrafficGenerator.Web\IISLogTrafficGenerator.Web.csproj", "{AF581A6A-7DA4-4522-96D3-4F97780C5D23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,8 +53,23 @@ Global
 		{F5D0E722-8CA9-440B-BD93-63B52C522A52}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F5D0E722-8CA9-440B-BD93-63B52C522A52}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F5D0E722-8CA9-440B-BD93-63B52C522A52}.Release|x86.ActiveCfg = Release|Any CPU
+		{AF581A6A-7DA4-4522-96D3-4F97780C5D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF581A6A-7DA4-4522-96D3-4F97780C5D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF581A6A-7DA4-4522-96D3-4F97780C5D23}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AF581A6A-7DA4-4522-96D3-4F97780C5D23}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AF581A6A-7DA4-4522-96D3-4F97780C5D23}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AF581A6A-7DA4-4522-96D3-4F97780C5D23}.Debug|x86.Build.0 = Debug|Any CPU
+		{AF581A6A-7DA4-4522-96D3-4F97780C5D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF581A6A-7DA4-4522-96D3-4F97780C5D23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF581A6A-7DA4-4522-96D3-4F97780C5D23}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AF581A6A-7DA4-4522-96D3-4F97780C5D23}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AF581A6A-7DA4-4522-96D3-4F97780C5D23}.Release|x86.ActiveCfg = Release|Any CPU
+		{AF581A6A-7DA4-4522-96D3-4F97780C5D23}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {990FF8D7-B77C-449F-BDE8-9B40CEA15244}
 	EndGlobalSection
 EndGlobal

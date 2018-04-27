@@ -19,6 +19,8 @@ namespace IISLogTrafficGenerator.Logic
 
 		private bool restartwhenfinished;
 
+	    private LogReader reader = null;
+
 		// delegates and events
 		public delegate void ConfigurationErrorEventHandler(object sender, ConfigurationErrorEventArgs e);
 		public event ConfigurationErrorEventHandler LogFileOptionMissingEvent;
@@ -99,9 +101,19 @@ namespace IISLogTrafficGenerator.Logic
 			targetServerUrl = serverUrl;
 			dowaiting = wait;
 			restartwhenfinished = restart;
-		}
+		    reader = new LogReader(logFile);
+        }
 
-		public void CreateRequests()
+	    public Downloader(string log, string serverUrl, WaitMode wait, bool restart, LogReader reader)
+	    {
+	        logFile = log;
+	        targetServerUrl = serverUrl;
+	        dowaiting = wait;
+	        restartwhenfinished = restart;
+        }
+
+
+        public void CreateRequests()
 		{
 			if (String.IsNullOrEmpty(logFile))
 			{
@@ -125,11 +137,12 @@ namespace IISLogTrafficGenerator.Logic
 
 			XmlConfigurator.Configure(new FileInfo("log.config"));
 
-			var reader = new LogReader(logFile);
+			
 
 			var requests = reader.ParseLogFile();
 			var lastTimespan = new TimeSpan(0, 0, 0);
 			WebClientThreadStatus client = null;
+		    var first = true;
 
 			do
 			{
@@ -150,6 +163,15 @@ namespace IISLogTrafficGenerator.Logic
 
 					StartDownloadThread(url);
 
+				    if (dowaiting == WaitMode.LogIntervalButStartNow)
+				    {
+				        if (first)
+				        {
+				            first = false;
+				            lastTimespan = new TimeSpan(request.Time.Hour, request.Time.Minute, request.Time.Second);
+				        }
+				        WaitTimespanDifference(lastTimespan, request.Time);
+                    }
 					lastTimespan = request.Time.TimeOfDay;
 				}
 			}
